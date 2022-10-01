@@ -30,12 +30,13 @@ def main():
     cheat = cheat.replace(".csv", "")+"_cheat.csv"
     with open(infile, newline='') as input, open(outfile, "w", encoding='utf-8') as output, open(cheat, "w", encoding='utf-8') as teacher:
         clear = csv.reader(input, delimiter ="|")
-        cipher = csv.writer(output, delimiter =",")
-        cheat = csv.writer(teacher, delimiter =",")
+        cipher = csv.writer(output, delimiter =",", quoting=csv.QUOTE_MINIMAL)
+        cheat = csv.writer(teacher, delimiter =",", quoting=csv.QUOTE_MINIMAL)
         for index, line in enumerate(clear):
             key = getKey()
-            cipher_answer = [str(index) + " " + caesar(line,key)]
-            cheat_answer = [str(index) + " " + cleanup(str(line)) + " /key: " + str(key)]
+            strIndex = str(index)
+            cipher_answer = [str(index)]+[caesar(line,key)]
+            cheat_answer = [str(index)] + [cleanup(str(line))] + [str(key)]
             cipher.writerow(cipher_answer)
             cheat.writerow(cheat_answer)
 
